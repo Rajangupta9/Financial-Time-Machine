@@ -3,7 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
-import userRoutes from "./routes/v1/userRoutes";
+import routes from "./routes";
+import { setupSwagger } from "./config/swagger";
 // import { errorHandler } from './utils/errors/errorHandler';
 
 const app = express();
@@ -16,8 +17,11 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan("dev"));
 
-// Routes
-app.use("/api/users", userRoutes);
+
+// Setup Swagger documentation
+setupSwagger(app);
+// All routes are now handled by the routes index
+app.use("/api", routes);
 
 // Error handling
 // app.use(errorHandler);
