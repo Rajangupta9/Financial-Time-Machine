@@ -7,7 +7,7 @@ import logger from "../utils/logger";
 const JWT_SECRET = process.env.JWT_SECRET || "default_jwt_secret";
 
 // REGISTER
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser  = async (req: Request, res: Response) => {
   try {
     const { email, password, name } = req.body;
 
