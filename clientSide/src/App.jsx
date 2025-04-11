@@ -1,19 +1,30 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import AuthView from './views/users/AuthView';
+import DashboardView from './views/dashboard/DashboardView';
+import AuthController from './controllers/AuthController';
 
+const authController = new AuthController();
+
+// Protected route component
+const ProtectedRoute = ({ children }) => {
+  if (!authController.isAuthenticated()) {
+    return <Navigate to="/auth" replace />;
+  }
+  return children;
+};
 
 function App() {
-  
-
   return (
-    <>
-        <div className="text-center p-10 bg-white shadow-lg rounded-lg">
-            <h1 className="text-3xl font-bold text-blue-600">🎉 Tailwind CSS is Working!</h1>
-            <p className="mt-4 text-gray-700">Edit this HTML to start building your project with Tailwind.</p>
-            <button className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                Test Button
-            </button>
-        </div>
-    </>
-  )
+    <Routes>
+      <Route path="/auth" element={<AuthView />} />
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <DashboardView />
+        </ProtectedRoute>
+      } />
+      <Route path="/" element={<Navigate to="/auth" replace />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
